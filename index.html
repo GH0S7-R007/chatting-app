@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-  </head>
-  <body>
-    <form id="login-form">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username"><br>
-
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password"><br>
-
-      <input type="submit" value="Login">
-    </form>
-
-    <div id="chat-box" style="display: none;">
-      <div id="messages"></div>
-      <form id="message-form">
-        <input type="text" id="message" name="message">
-        <input type="submit" value="Send">
-      </form>
-    </div>
-
-    <script src="client.js"></script>
-  </body>
+<head>
+	<title>Chat Box</title>
+	<script src="chat.js"></script>
+	<style>
+		#chat-box {
+			border: 1px solid black;
+			padding: 10px;
+			height: 200px;
+			overflow-y: scroll;
+		}
+	</style>
+</head>
+<body>
+	<h1>Chat Box</h1>
+	<div id="chat-box"></div>
+	<input type="text" id="message-input">
+	<button onclick="sendMessage()">Send</button>
+	<script>
+		initChat();
+	</script>
+</body>
 </html>
