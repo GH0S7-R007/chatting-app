@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Chat Box</title>
-	<script src="chat.js"></script>
-	<style>
-		#chat-box {
-			border: 1px solid black;
-			padding: 10px;
-			height: 200px;
-			overflow-y: scroll;
-		}
-	</style>
+  <title>Open Botreebot</title>
 </head>
 <body>
-	<h1>Chat Box</h1>
-	<div id="chat-box"></div>
-	<input type="text" id="message-input">
-	<button onclick="sendMessage()">Send</button>
-	<script>
-		initChat();
-	</script>
+  <button onclick="openBotreebot()">Open Botreebot</button>
+
+  <script>
+    function openBotreebot() {
+      window.location.href = "botreebot://";
+    }
+  </script>
 </body>
 </html>
