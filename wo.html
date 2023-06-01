@@ -3,7 +3,13 @@
 <head>
     <title>Nandikesan</title>
     <style>
-        table {
+        .print-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+   
+      table {
             border-collapse: collapse;
             width: 100%;
         }
@@ -16,6 +22,8 @@
 </head>
 <body>
     <h1>Work Order search</h1>
+<button class="print-button" onclick="captureScreenshot()">Print</button>
+
     <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="Enter sheet name">
 
     <table id="dataTable">
@@ -81,6 +89,11 @@
 
         // Fetch the data when the page loads
         fetchData();
+    </script>
+    <script>
+        function captureScreenshot() {
+            window.print();
+        }
     </script>
 </body>
 </html>
