@@ -15,19 +15,12 @@
     </style>
 </head>
 <body>
-    <h1>Bill view</h1>
-    
+    <h1>Work Order search</h1>
+    <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="Enter sheet name">
+
     <table id="dataTable">
         <thead>
-            <tr>
-                <th>Sl.No</th>
-                <th>HSN code</th>
-                <th>Item</th>
-                <th>Rate</th>
-                <th>Mesurement</th>
-                <th>Qty</th>
-                <th>Total Amt</th>
-            </tr>
+            
         </thead>
         <tbody id="dataBody">
         </tbody>
@@ -59,12 +52,17 @@
 
         // Function to fetch data from the Google Sheet using Google Sheets API
         function fetchData() {
+            var sheetName = document.getElementById("searchInput").value;
+            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1SN3zTvRrmKMQqlj82M6ciCFsSktMf2_itH8vV_hedWI/values/" + sheetName + "?key=AIzaSyBwqJHlInJMawbvGVcgcJCfoGzdLJ9Rp-Y";
+
             $.ajax({
-                url: "https://sheets.googleapis.com/v4/spreadsheets/1SN3zTvRrmKMQqlj82M6ciCFsSktMf2_itH8vV_hedWI/values/Sheet3?key=AIzaSyBwqJHlInJMawbvGVcgcJCfoGzdLJ9Rp-Y",
+                url: sheetUrl,
                 type: "GET",
                 success: function(response) {
                     var data = response.values;
                     var tableBody = document.getElementById("dataBody");
+                    tableBody.innerHTML = ""; // Clear existing table data
+
                     for (var i = 1; i < data.length; i++) {
                         var row = document.createElement("tr");
                         for (var j = 0; j < data[i].length; j++) {
