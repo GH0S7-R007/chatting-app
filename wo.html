@@ -21,10 +21,10 @@
     </style>
 </head>
 <body>
-    <h1>Work Order search</h1>
+    <h1>Get Month wise work</h1>
 <button class="print-button" onclick="captureScreenshot()">Print</button>
 
-    <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="Enter sheet name">
+    <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="Enter month">
 
     <table id="dataTable">
         <thead>
@@ -61,7 +61,7 @@
         // Function to fetch data from the Google Sheet using Google Sheets API
         function fetchData() {
             var sheetName = document.getElementById("searchInput").value;
-            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1SN3zTvRrmKMQqlj82M6ciCFsSktMf2_itH8vV_hedWI/values/" + sheetName + "?key=AIzaSyBwqJHlInJMawbvGVcgcJCfoGzdLJ9Rp-Y";
+            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1_32fBAO97bFdG9eomxLy9dDFhwVLwuItgqw_tlBoadM/values/" + sheetName + "?key=AIzaSyBwqJHlInJMawbvGVcgcJCfoGzdLJ9Rp-Y";
 
             $.ajax({
                 url: sheetUrl,
