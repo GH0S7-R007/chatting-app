@@ -1,101 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
+  <title>Custom Form Submission</title>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    function handleFormSubmit(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+      
+      // Get the form values
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      
+      // Prepare the data to be sent to the Google Sheets API
+      var data = {
+        values: [
+          [name, email]
+        ]
+      };
+      
+      // Make an API request to append the data to the Google Sheet
+      gapi.client.sheets.spreadsheets.values.append({
+        spreadsheetId: '1SN3zTvRrmKMQqlj82M6ciCFsSktMf2_itH8vV_hedWI',
+        range: 'Sheet1!A:B',
+        valueInputOption: 'USER_ENTERED',
+        resource: data
+      }).then(function(response) {
+        console.log('Data appended to the Google Sheet:', response);
+        // Optionally, display a success message to the user
+        document.getElementById('result').innerHTML = 'Data saved successfully!';
+      }, function(error) {
+        console.error('Error appending data to the Google Sheet:', error);
+        // Display an error message to the user
+        document.getElementById('result').innerHTML = 'Error saving data!';
+      });
+    }
+    
+    function handleClientLoad() {
+      // Load the Google Sheets API client library
+      gapi.load('client:auth2', initClient);
+    }
 
-.navbar {
-  overflow: hidden;
-  background-color: #333;
-}
-
-.navbar a {
-  float: left;
-  font-size: 16px;
-  color: white;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-.dropdown {
-  float: left;
-  overflow: hidden;
-}
-
-.dropdown .dropbtn {
-  font-size: 16px;  
-  border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit;
-  margin: 0;
-}
-
-.navbar a:hover, .dropdown:hover .dropbtn {
-  background-color: red;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  float: none;
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: left;
-}
-
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-</style>
+    function initClient() {
+      // Initialize the Google Sheets API client library
+      gapi.client.init({
+        apiKey: 'AIzaSyDhT3l7hQXQSOzOscEk4R7Edz57ec6VF0Q',
+        clientId: '87703571084-krmmg62nnnt9nao8llg7bn1qaljqluse.apps.googleusercontent.com',
+        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+        scope: 'https://www.googleapis.com/auth/spreadsheets'
+      }).then(function() {
+        // Enable the form submission after the client library is initialized
+        document.getElementById('submitBtn').disabled = false;
+      }, function(error) {
+        console.error('Error initializing Google Sheets API:', error);
+      });
+    }
+  </script>
 </head>
 <body>
-
-<div class="navbar">
+  <h1>Custom Form Submission</h1>
+  <form onsubmit="handleFormSubmit(event)">
+    <label for="name">Name:</label>
+    <input type="text" id="name" required><br><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" required><br><br>
+    <input type="submit" id="submitBtn" value="Submit" disabled>
+  </form>
+  <div id="result"></div>
   
-  <div class="dropdown">
-    <button class="dropbtn">Entry 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="https://docs.google.com/spreadsheets/d/1pe6GcLqnUwTA7oKZF-iMe8Zru-F2rSYZ565cotLToNA/edit#gid=0">Ledger</a>
-      <a href="https://docs.google.com/spreadsheets/d/1SN3zTvRrmKMQqlj82M6ciCFsSktMf2_itH8vV_hedWI/edit#gid=1783486859">Work Order Entry</a>
-      <a href="#">Log Sheet</a>
-      <a href="wo.html">Work order-Search</a>
-      <a href="#">Bill Generation</a></div></div>
-      <div class="dropdown">
-      <button class="dropbtn">Utilities
-    <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="#">Backup</a>
-      <a href="party.html">View Ledger Data</a>
-      <a href="#">Admin</a></div></div></div>
-  
-
-<br>
-<br><br><br><center>
-<h3>M P Engineering</h3>
-
+  <!-- Load the Google API client library -->
+  <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
 </body>
 </html>
