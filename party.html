@@ -1,104 +1,135 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Nandikesan</title>
-    <style>
-        .print-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-   
-      table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-    </style>
+  <title>Ledger Entry Form</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, skyblue, lightblue);
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      margin-top: 50px;
+    }
+    .container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      background-color: dodgerblue;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: royalblue;
+    }
+    .result {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Party Details</h1>
-<button class="print-button" onclick="captureScreenshot()">Print</button>
+  <div class="container">
+    <h2>Profile Generation</h2>
+    <form onsubmit="handleFormSubmit(event)">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Address:</label>
+        <input type="text" id="address" required>
+      </div>
+      <div class="form-group">
+        <label for="mobile">Mobile:</label>
+        <input type="text" id="mobile" required>
+      </div>
+      <div class="form-group">
+        <label for="creationDate">Date of Creation:</label>
+        <input type="date" id="creationDate" required>
+      </div>
+      <div class="form-group">
+        <label for="others">Others:</label>
+        <input type="text" id="others">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn">Save</button>
+      </div>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
 
-    <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="search name">
+  <script>
+    function handleFormSubmit(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
 
-    <table id="dataTable">
-  <thead>
-    <tr>
-      <th>Party Name</th>
-      <th>Address</th>
-      <th>Phone Number</th>
-    </tr>
-  </thead>
-  <tbody id="dataBody">
-    <!-- Table rows will be dynamically added here -->
-  </tbody>
-</table>
+      // Get the form values
+      var name = document.getElementById('name').value;
+      var address = document.getElementById('address').value;
+      var mobile = document.getElementById('mobile').value;
+      var creationDate = document.getElementById('creationDate').value;
+      var others = document.getElementById('others').value;
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        // Function to filter the data based on the search input
-        function filterData() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("dataTable");
-            tr = table.getElementsByTagName("tr");
+      // Check if any input fields are empty
+      if (!name || !address || !mobile || !creationDate) {
+        document.getElementById('result').innerHTML = 'Error: Please fill in all required fields!';
+        return;
+      }
 
-            // Loop through all table rows and hide those that don't match the search query
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
+      // Prepare the data to be sent to the Google Sheets API
+      var data = {
+        values: [
+          [name, address, mobile, creationDate, others]
+        ]
+      };
 
-        // Function to fetch data from the Google Sheet using Google Sheets API
-        function fetchData() {
-            var sheetName = document.getElementById("searchInput").value;
-            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1pe6GcLqnUwTA7oKZF-iMe8Zru-F2rSYZ565cotLToNA/values/Sheet1?key=AIzaSyBwqJHlInJMawbvGVcgcJCfoGzdLJ9Rp-Y";
+      // Make an API request to append the data to the Google Sheet
+      fetch('https://script.google.com/macros/s/AKfycbwVuTmbTkKR2umVNC1RazmQJiIaYhJQqzLXHEhZ5Ey2SP2Kl-MA7ssUxc7jgQN8bsQ/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(function() {
+        // Clear the form inputs
+        document.getElementById('name').value = '';
+        document.getElementById('address').value = '';
+        document.getElementById('mobile').value = '';
+        document.getElementById('creationDate').value = '';
+        document.getElementById('others').value = '';
 
-            $.ajax({
-                url: sheetUrl,
-                type: "GET",
-                success: function(response) {
-                    var data = response.values;
-                    var tableBody = document.getElementById("dataBody");
-                    tableBody.innerHTML = ""; // Clear existing table data
-
-                    for (var i = 1; i < data.length; i++) {
-                        var row = document.createElement("tr");
-                        for (var j = 0; j < data[i].length; j++) {
-                            var cell = document.createElement("td");
-                            cell.innerText = data[i][j];
-                            row.appendChild(cell);
-                        }
-                        tableBody.appendChild(row);
-                    }
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        // Fetch the data when the page loads
-        fetchData();
-    </script>
-    <script>
-        function captureScreenshot() {
-            window.print();
-        }
-    </script>
+        // Display a success message to the user
+        document.getElementById('result').innerHTML = 'Data saved successfully!';
+      })
+      .catch(function(error) {
+        console.error('Error saving data:', error);
+        // Display an error message to the user
+        document.getElementById('result').innerHTML = 'Error saving data!';
+      });
+    }
+  </script>
 </body>
 </html>
