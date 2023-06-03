@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nandikesan</title>
+    <style>
+        .print-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+   
+      table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Party Details</h1>
+<button class="print-button" onclick="captureScreenshot()">Print</button>
+
+    <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="search name">
+
+    <table id="dataTable">
+  <thead>
+    <tr>
+      <th>Party Name</th>
+      <th>Address</th>
+      <th>Phone Number</th>
+    </tr>
+  </thead>
+  <tbody id="dataBody">
+    <!-- Table rows will be dynamically added here -->
+  </tbody>
+</table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        // Function to filter the data based on the search input
+        function filterData() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows and hide those that don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Function to fetch data from the Google Sheet using Google Sheets API
+        function fetchData() {
+            var sheetName = document.getElementById("searchInput").value;
+            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1pe6GcLqnUwTA7oKZF-iMe8Zru-F2rSYZ565cotLToNA/values/Sheet1?key=AIzaSyBwqJHlInJMawbvGVcgcJCfoGzdLJ9Rp-Y";
+
+            $.ajax({
+                url: sheetUrl,
+                type: "GET",
+                success: function(response) {
+                    var data = response.values;
+                    var tableBody = document.getElementById("dataBody");
+                    tableBody.innerHTML = ""; // Clear existing table data
+
+                    for (var i = 1; i < data.length; i++) {
+                        var row = document.createElement("tr");
+                        for (var j = 0; j < data[i].length; j++) {
+                            var cell = document.createElement("td");
+                            cell.innerText = data[i][j];
+                            row.appendChild(cell);
+                        }
+                        tableBody.appendChild(row);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        // Fetch the data when the page loads
+        fetchData();
+    </script>
+    <script>
+        function captureScreenshot() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
