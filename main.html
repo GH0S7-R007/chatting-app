@@ -1,73 +1,95 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Custom Form Submission</title>
-  <script src="https://apis.google.com/js/api.js"></script>
-  <script>
-    function handleFormSubmit(event) {
-      event.preventDefault(); // Prevent the form from submitting normally
-      
-      // Get the form values
-      var name = document.getElementById('name').value;
-      var email = document.getElementById('email').value;
-      
-      // Prepare the data to be sent to the Google Sheets API
-      var data = {
-        values: [
-          [name, email]
-        ]
-      };
-      
-      // Make an API request to append the data to the Google Sheet
-      gapi.client.sheets.spreadsheets.values.append({
-        spreadsheetId: '1SN3zTvRrmKMQqlj82M6ciCFsSktMf2_itH8vV_hedWI',
-        range: 'Sheet1!A:B',
-        valueInputOption: 'USER_ENTERED',
-        resource: data
-      }).then(function(response) {
-        console.log('Data appended to the Google Sheet:', response);
-        // Optionally, display a success message to the user
-        document.getElementById('result').innerHTML = 'Data saved successfully!';
-      }, function(error) {
-        console.error('Error appending data to the Google Sheet:', error);
-        // Display an error message to the user
-        document.getElementById('result').innerHTML = 'Error saving data!';
-      });
-    }
-    
-    function handleClientLoad() {
-      // Load the Google Sheets API client library
-      gapi.load('client:auth2', initClient);
-    }
+    <title>Login Page</title>
+    <style>
+        body {
+            background-color: #E1F5FE;
+            font-family: Arial, sans-serif;
+        }
 
-    function initClient() {
-      // Initialize the Google Sheets API client library
-      gapi.client.init({
-        apiKey: 'AIzaSyDhT3l7hQXQSOzOscEk4R7Edz57ec6VF0Q',
-        clientId: '87703571084-krmmg62nnnt9nao8llg7bn1qaljqluse.apps.googleusercontent.com',
-        discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
-        scope: 'https://www.googleapis.com/auth/spreadsheets'
-      }).then(function() {
-        // Enable the form submission after the client library is initialized
-        document.getElementById('submitBtn').disabled = false;
-      }, function(error) {
-        console.error('Error initializing Google Sheets API:', error);
-      });
-    }
-  </script>
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 100px;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border: 1px solid #CCCCCC;
+            border-radius: 5px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #CCCCCC;
+            border-radius: 3px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 8px;
+            background-color: #1565C0;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #0D47A1;
+        }
+    </style>
 </head>
 <body>
-  <h1>Custom Form Submission</h1>
-  <form onsubmit="handleFormSubmit(event)">
-    <label for="name">Name:</label>
-    <input type="text" id="name" required><br><br>
-    <label for="email">Email:</label>
-    <input type="email" id="email" required><br><br>
-    <input type="submit" id="submitBtn" value="Submit" disabled>
-  </form>
-  <div id="result"></div>
-  
-  <!-- Load the Google API client library -->
-  <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    <div class="container">
+        <h2>Login</h2>
+        <form onsubmit="login(event)">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function login(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            if (username === 'manoj' || username === 'hari' || username === 'vishnu') {
+                if (password === 'billing@123') {
+                    alert('Login successful!');
+                    window.location.href = 'https://gh0s7-r007.github.io/chatting-app/'; // Redirect to the desired page
+                } else {
+                    alert('Incorrect password!');
+                }
+            } else {
+                alert('Invalid username!');
+            }
+        }
+    </script>
 </body>
 </html>
