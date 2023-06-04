@@ -3,6 +3,10 @@
 <head>
     <title>Nandikesan</title>
     <style>
+     body {
+            background-color: #E1F5FE;
+        }
+        
         .print-button {
             position: absolute;
             top: 10px;
@@ -21,14 +25,20 @@
     </style>
 </head>
 <body>
-    <h1>Get Month wise work</h1>
+    <a href="https://gh0s7-r007.github.io/chatting-app/">Home</a>   
 <button class="print-button" onclick="captureScreenshot()">Print</button>
 
-    <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="Enter month">
+    <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="All party names are here">
 
     <table id="dataTable">
         <thead>
-            
+            <tr>
+                <th>Date of Registration</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Mobile</th>
+                <th>Others</th>
+            </tr>
         </thead>
         <tbody id="dataBody">
         </tbody>
@@ -61,7 +71,7 @@
         // Function to fetch data from the Google Sheet using Google Sheets API
         function fetchData() {
             var sheetName = document.getElementById("searchInput").value;
-            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1_32fBAO97bFdG9eomxLy9dDFhwVLwuItgqw_tlBoadM/values/" + sheetName + "?key=AIzaSyBwqJHlInJMawbvGVcgcJCfoGzdLJ9Rp-Y";
+            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1ZDnYZ2CJjB4H5tF7czu_R1ygLkZ3eu1i5kNjlD3zOIg/values/Sheet1?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg";
 
             $.ajax({
                 url: sheetUrl,
