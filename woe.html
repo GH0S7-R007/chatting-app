@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Work Order Entry</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background: linear-gradient(to bottom, #87ceeb, #1e90ff);
+    }
+
+    .container {
+      margin-top: 100px;
+      width: 400px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center">Work Order Entry</h1>
+    <form onsubmit="handleFormSubmit(event)">
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="workOrder">Work Order:</label>
+          <input type="text" class="form-control" id="workOrder" required>
+        </div>
+        <div class="form-group col">
+          <label for="partyName">Work ID:</label>
+          <input type="text" class="form-control" id="partyName" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="workDate">Work Date:</label>
+          <input type="date" class="form-control" id="workDate" required>
+        </div>
+        <div class="form-group col">
+          <label for="test1">Party Name:</label>
+          <select class="form-control" id="test1" required></select>
+        </div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+    <div id="result" class="mt-3"></div>
+  </div>
+
+  <script>
+    // Load the dropdown options from the Google Sheet
+    function loadDropdownOptions() {
+      var apiKey = 'AIzaSyDhT3l7hQXQSOzOscEk4R7Edz57ec6VF0Q'; // Replace with your Google Sheets API key
+      var sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1ZDnYZ2CJjB4H5tF7czu_R1ygLkZ3eu1i5kNjlD3zOIg/values/Sheet1!B2:B50?key=' + apiKey;
+
+      fetch(sheetUrl)
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          var options = data.values.flat();
+          var select = document.getElementById('test1');
+
+          options.forEach(function(option) {
+            var optionElement = document.createElement('option');
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+          });
+        })
+        .catch(function(error) {
+          console.error('Error loading dropdown options:', error);
+        });
+    }
+
+    // Handle form submission
+    function handleFormSubmit(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      // Get the form values
+      var workOrder = document.getElementById('workOrder').value;
+      var workDate = document.getElementById('workDate').value;
+      var partyName = document.getElementById('partyName').value;
+      var test1 = document.getElementById('test1').value;
+
+      // Prepare the data to be sent to the Google Sheets API
+      var data = {
+        values: [
+          [workOrder, workDate, partyName, test1]
+        ]
+      };
+
+      // Make an API request to append the data to the Google Sheet
+      var apiKey = 'AIzaSyDhT3l7hQXQSOzOscEk4R7Edz57ec6VF0Q'; // Replace with your Google Sheets API key
+      var scriptUrl = 'https://script.google.com/macros/s/AKfycbyaqC4mny8k6Uww_FsG48HcqRXArXugupQ5wLFyKudqYATtEM1wDyk8PAUANUuFSI-h/exec?key=' + apiKey;
+
+      fetch(scriptUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(function() {
+        // Optionally, display a success message to the user
+        document.getElementById('result').innerHTML = 'Data saved successfully!';
+
+        // Clear the input values
+        document.getElementById('workOrder').value = '';
+        document.getElementById('workDate').value = '';
+        document.getElementById('partyName').value = '';
+        document.getElementById('test1').value = '';
+      })
+      .catch(function(error) {
+        console.error('Error saving data:', error);
+        // Display an error message to the user
+        document.getElementById('result').innerHTML = 'Error saving data!';
+      });
+    }
+
+    // Load the dropdown options when the page is ready
+    document.addEventListener('DOMContentLoaded', loadDropdownOptions);
+  </script>
+</body>
+</html>
