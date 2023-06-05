@@ -20,30 +20,37 @@
       margin-left: 10px;
       margin-right: 10px;
     }
+     table {
+            border-collapse: collapse;
+            width: 300%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
   </style>
 </head>
-<body>
+<body><a href="https://gh0s7-r007.github.io/chatting-app/">Home</a> 
   <div class="container">
     <h1 class="text-center">Work Order Entry</h1>
     <form onsubmit="handleFormSubmit(event)">
       <div class="form-row">
         <div class="form-group col">
           <label for="workOrder">Work Order:</label>
-          <input type="text" class="form-control" id="workOrder" required>
+          <input type="text" class="form-control" id="workOrder">
         </div>
-        <div class="form-group col">
-          <label for="partyName">Work ID:</label>
-          <input type="text" class="form-control" id="partyName" required>
-        </div>
+        
+        
       </div>
       <div class="form-row">
         <div class="form-group col">
           <label for="workDate">Work Date:</label>
-          <input type="date" class="form-control" id="workDate" required>
+          <input type="date" class="form-control" id="workDate">
         </div>
         <div class="form-group col">
           <label for="test1">Party Name:</label>
-          <select class="form-control" id="test1" required></select>
+          <select class="form-control" id="test1"></select>
         </div>
         </div>
         <div class="container1">
@@ -76,6 +83,7 @@
       </div>
       <div class="text-center">
         <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary" onclick="reloadPage()">Reload</button>
       </div>
     </form>
     <div id="result" class="mt-3"></div>
@@ -115,7 +123,6 @@
       // Get the form values
       var workOrder = document.getElementById('workOrder').value;
       var workDate = document.getElementById('workDate').value;
-      var partyName = document.getElementById('partyName').value;
       var test1 = document.getElementById('test1').value;
       var s = document.getElementById('s').value;
       var sac = document.getElementById('sac').value;
@@ -127,7 +134,7 @@
       // Prepare the data to be sent to the Google Sheets API
       var data = {
         values: [
-          [workOrder, workDate, partyName, test1, s, sac, annx, activity, unit, rate]
+          [workOrder, workDate, test1, s, sac, annx, activity, unit, rate]
         ]
       };
 
@@ -150,7 +157,6 @@
         // Clear the input values
         document.getElementById('workOrder').value = '';
         document.getElementById('workDate').value = '';
-        document.getElementById('partyName').value = '';
         document.getElementById('test1').value = '';
         document.getElementById('s').value = '';
         document.getElementById('sac').value = '';
@@ -182,5 +188,88 @@ function addRow() {
       table.appendChild(newRow);
     }
   </script>
+<body>  
+
+    <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="See the saved content"disabled>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Work Order</th>
+                <th>Work Date</th>
+                <th>Party Name</th>
+                <th>S.N</th>
+                <th>Sac code</th>
+                <th>Annx</th>
+                <th>Activity</th>
+                <th>unit</th>
+                <th>Rate</th>
+            </tr>
+        </thead>
+        <tbody id="dataBody">
+        </tbody>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        // Function to filter the data based on the search input
+        function filterData() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("dataTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows and hide those that don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Function to fetch data from the Google Sheet using Google Sheets API
+        function fetchData() {
+            var sheetName = document.getElementById("searchInput").value;
+            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1F-eNLtiXhFx9BNmk545KrJWSlM-PhuxJu1CLiL_hoU8/values/Sheet1?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg";
+
+            $.ajax({
+                url: sheetUrl,
+                type: "GET",
+                success: function(response) {
+                    var data = response.values;
+                    var tableBody = document.getElementById("dataBody");
+                    tableBody.innerHTML = ""; // Clear existing table data
+
+                    for (var i = 1; i < data.length; i++) {
+                        var row = document.createElement("tr");
+                        for (var j = 0; j < data[i].length; j++) {
+                            var cell = document.createElement("td");
+                            cell.innerText = data[i][j];
+                            row.appendChild(cell);
+                        }
+                        tableBody.appendChild(row);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        // Fetch the data when the page loads
+        fetchData();
+    </script>
+    <script>
+  function reloadPage() {
+    window.location.reload();
+  }
+</script>
 </body>
 </html>
