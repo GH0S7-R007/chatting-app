@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Nandikesan</title>
+    <title>logsheet</title>
     <style>
-     body {
+        body {
             background-color: #E1F5FE;
         }
         
@@ -13,7 +13,7 @@
             right: 10px;
         }
    
-      table {
+        table {
             border-collapse: collapse;
             width: 100%;
         }
@@ -25,19 +25,24 @@
     </style>
 </head>
 <body>
-    <a href="https://gh0s7-r007.github.io/chatting-app/">Home</a>   
-<button class="print-button" onclick="captureScreenshot()">Print</button>
+    <a href="https://gh0s7-r007.github.io/chatting-app/">Home</a>
+    <button class="print-button" onclick="captureScreenshot()">Print</button>
 
-    <input type="text" id="searchInput" onkeyup="fetchData()" placeholder="All party names are here">
+    <input type="text" id="searchInput" placeholder="Enter sheet name">
+    <button onclick="fetchData()">Submit</button>
 
     <table id="dataTable">
         <thead>
             <tr>
-                <th>Date of Registration</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Mobile</th>
-                <th>Others</th>
+                <th>Work Order</th>
+                <th>Date</th>
+                <th>Party </th>
+                <th>Sl no</th>
+                <th>SAC Code</th>
+                <th>Annx</th>
+                <th>Activity</th>
+                <th>Total unit</th>
+                <th>Rate</th>
             </tr>
         </thead>
         <tbody id="dataBody">
@@ -71,7 +76,7 @@
         // Function to fetch data from the Google Sheet using Google Sheets API
         function fetchData() {
             var sheetName = document.getElementById("searchInput").value;
-            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1ZDnYZ2CJjB4H5tF7czu_R1ygLkZ3eu1i5kNjlD3zOIg/values/Sheet1?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg";
+            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1F-eNLtiXhFx9BNmk545KrJWSlM-PhuxJu1CLiL_hoU8/values/" + sheetName + "?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg";
 
             $.ajax({
                 url: sheetUrl,
@@ -81,7 +86,7 @@
                     var tableBody = document.getElementById("dataBody");
                     tableBody.innerHTML = ""; // Clear existing table data
 
-                    for (var i = 1; i < data.length; i++) {
+                    for (var i = 0; i < data.length; i++) {
                         var row = document.createElement("tr");
                         for (var j = 0; j < data[i].length; j++) {
                             var cell = document.createElement("td");
@@ -96,9 +101,6 @@
                 }
             });
         }
-
-        // Fetch the data when the page loads
-        fetchData();
     </script>
     <script>
         function captureScreenshot() {
