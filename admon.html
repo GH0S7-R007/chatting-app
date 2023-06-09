@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flashing Image</title>
+  <style>
+    @keyframes flash {
+      0% { background-color: white; }
+      50% { background-color: red; }
+      100% { background-color: white; }
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: flash 1s infinite;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/154Iu_npzsz1DCtmSXiAD_qQoCVEkZZtS-FmdTKgDtZc/edit#gid=0')">Log Sheet</button>
+    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/154Iu_npzsz1DCtmSXiAD_qQoCVEkZZtS-FmdTKgDtZc/edit#gid=2128042058')">Log Sheet Database</button>
+    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/154Iu_npzsz1DCtmSXiAD_qQoCVEkZZtS-FmdTKgDtZc/edit#gid=67175204')">Bill Generation</button>
+    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1F-eNLtiXhFx9BNmk545KrJWSlM-PhuxJu1CLiL_hoU8/edit#gid=0')">Work Order Entry</button>
+    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1F-eNLtiXhFx9BNmk545KrJWSlM-PhuxJu1CLiL_hoU8/edit#gid=1491630737')">Work Order Database</button>
+    <button class="button" onclick="openLink('https://docs.google.com/spreadsheets/d/1ZDnYZ2CJjB4H5tF7czu_R1ygLkZ3eu1i5kNjlD3zOIg/edit#gid=0')">Ledger Database</button>
+  </div>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7foEE5dc4KWgK2um0z_7BExWLDGeZsTzZZsNYSf1M&s" alt="Flashing Image">
+
+  <script>
+    function openLink(link) {
+      window.open(link);
+    }
+  </script>
+</body>
+</html>
