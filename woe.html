@@ -36,10 +36,6 @@
     <h1 class="text-center">Work Order Entry</h1>
     <form onsubmit="handleFormSubmit(event)">
       <div class="form-row">
-        <div class="form-group col">
-          <label for="workOrder">Work Order:</label>
-          <input type="text" class="form-control" id="workOrder">
-        </div>
         
         
       </div>
@@ -61,23 +57,23 @@
           <input type="text" class="form-control" id="s" required>
         </div>
         <div class="form-group col">
-          <label for="sac">SAC Code</label>
+          <label for="sac">Product Code</label>
           <input type="text" class="form-control" id="sac" required>
         </div>
         <div class="form-group col">
-          <label for="annx">Annx</label>
+          <label for="annx">Item Des</label>
           <input type="text" class="form-control" id="annx" required>
         </div>
         <div class="form-group col">
-          <label for="activity">Activity</label>
+          <label for="activity">HSN</label>
           <input type="text" class="form-control" id="activity" required>
         </div>
         <div class="form-group col">
-          <label for="unit">Unit</label>
+          <label for="unit">UOM</label>
           <input type="text" class="form-control" id="unit" required>
         </div>
         <div class="form-group col">
-          <label for="rate">Rate</label>
+          <label for="rate">Price</label>
           <input type="text" class="form-control" id="rate" required>
         </div>
       </div>
@@ -121,7 +117,6 @@
       event.preventDefault(); // Prevent the form from submitting normally
 
       // Get the form values
-      var workOrder = document.getElementById('workOrder').value;
       var workDate = document.getElementById('workDate').value;
       var test1 = document.getElementById('test1').value;
       var s = document.getElementById('s').value;
@@ -134,7 +129,7 @@
       // Prepare the data to be sent to the Google Sheets API
       var data = {
         values: [
-          [workOrder, workDate, test1, s, sac, annx, activity, unit, rate]
+          [workDate, test1, s, sac, annx, activity, unit, rate]
         ]
       };
 
