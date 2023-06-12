@@ -1,46 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body, html {
+    body {
       margin: 0;
       padding: 0;
+      display: flex;
     }
-    .iframe-container {
-      position: fixed;
-      top: 0;
-      left: 0;
+#red-box {
+  position: fixed;
+  bottom: 0;
+  left: 40.2%;
+  transform: translateX(-50%);
+  width: 1500px;
+  height: 60px;
+  background-color: #cc0808;
+  
+}
+    
+    #video-container iframe {
+      position: absolute;
+      top: -21%;
+	right: 03%;
+      left: 10;
       width: 100%;
-      height: 100%;
-      z-index: 9999;
+      height: 130%;
+ overflow: hidden;
     }
-    .close-button {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 10000;
-      background-color: #fff;
-      padding: 5px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
     }
   </style>
 </head>
 <body>
-  <div class="iframe-container">
-    <iframe src="https://docs.google.com/spreadsheets/d/154Iu_npzsz1DCtmSXiAD_qQoCVEkZZtS-FmdTKgDtZc/edit#gid=0"></iframe>
-    <div class="close-button" onclick="closePage()">Close</div>
+  <div id="right-half"></div>
+    <div id="video-container">
+      <iframe width="260" height="315" src="https://docs.google.com/spreadsheets/d/154Iu_npzsz1DCtmSXiAD_qQoCVEkZZtS-FmdTKgDtZc/edit#gid=0" frameborder="10" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
   </div>
+<div id="red-box"></div>
 
-  <script>
-    function closePage() {
-      window.close();
-    }
-  </script>
 </body>
 </html>
