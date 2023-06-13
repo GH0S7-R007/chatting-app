@@ -1,111 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>logsheet</title>
-    <style>
-        body {
-            background-color: #ffffff;
-        }
+  <title>Countdown Timer</title>
+  <script>
+    window.onload = function() {
+      var countDownDate = new Date().getTime() + 49000; // Set the countdown time in milliseconds (49 seconds)
+      
+      var countdownTimer = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
         
-        .print-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+        // Calculations for days, hours, minutes, and seconds
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        // Display the countdown in the element with id="timer"
+        document.getElementById("timer").innerHTML = seconds + "s";
+        
+        // If the countdown is finished, redirect to the specified page
+        if (distance <= 0) {
+          clearInterval(countdownTimer);
+          window.location.href = "https://gh0s7-r007.github.io/chatting-app/wor.html";
         }
-   
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-    </style>
+      }, 1000); // Update the countdown every 1 second
+    };
+  </script>
 </head>
-<body>
-    <a href="https://gh0s7-r007.github.io/chatting-app/">Home</a>
-    <button class="print-button" onclick="captureScreenshot()">Print</button>
-
-    <input type="text" id="searchInput" placeholder="Enter sheet name">
-    <button onclick="fetchData()">Submit</button>
-
-    <table id="dataTable">
-        <thead>
-            <tr>
-                <th>Work Order</th>
-                <th>Date</th>
-                <th>Party </th>
-                <th>Sl no</th>
-                <th>SAC Code</th>
-                <th>Annx</th>
-                <th>Activity</th>
-                <th>Total Unit</th>
-                <th>Rate</th>
-            </tr>
-        </thead>
-        <tbody id="dataBody">
-        </tbody>
-    </table>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        // Function to filter the data based on the search input
-        function filterData() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("dataTable");
-            tr = table.getElementsByTagName("tr");
-
-            // Loop through all table rows and hide those that don't match the search query
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-
-        // Function to fetch data from the Google Sheet using Google Sheets API
-        function fetchData() {
-            var sheetName = document.getElementById("searchInput").value;
-            var sheetUrl = "https://sheets.googleapis.com/v4/spreadsheets/1F-eNLtiXhFx9BNmk545KrJWSlM-PhuxJu1CLiL_hoU8/values/" + sheetName + "?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg";
-
-            $.ajax({
-                url: sheetUrl,
-                type: "GET",
-                success: function(response) {
-                    var data = response.values;
-                    var tableBody = document.getElementById("dataBody");
-                    tableBody.innerHTML = ""; // Clear existing table data
-
-                    for (var i = 0; i < data.length; i++) {
-                        var row = document.createElement("tr");
-                        for (var j = 0; j < data[i].length; j++) {
-                            var cell = document.createElement("td");
-                            cell.innerText = data[i][j];
-                            row.appendChild(cell);
-                        }
-                        tableBody.appendChild(row);
-                    }
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        }
-    </script>
-    <script>
-        function captureScreenshot() {
-            window.print();
-        }
-    </script>
+<body><center><br><br><br>
+  <h1>Bill is being prepared</h1><center>
+  <p id="timer"></p>
 </body>
 </html>
