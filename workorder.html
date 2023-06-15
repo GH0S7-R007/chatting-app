@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Sheet Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #87ceeb;
+        }
+
+        h1 {
+            color: #1e90ff;
+        }
+#red-box {
+  position: fixed;
+  bottom: 0;
+  left: 40.2%;
+  transform: translateX(-50%);
+  width: 1500px;
+  height: 60px;
+  background-color: #cc0808;
+  
+}
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-row label {
+            flex-basis: 30%;
+        }
+
+        .form-row input[type="date"],
+        .form-row input[type="text"] {
+            flex-basis: 25%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="button"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        input[type="button"]:hover,
+        input[type="submit"]:hover {
+            background-color: #187bcd;
+        }
+.iframe-container {
+            width: 1450px;
+            height: 620px;
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Work Order Entry</h1>
+
+    <form id="myForm">
+        <div class="form-row">
+            <label for="workDate">Work Date:</label>
+            <input type="date" id="workDate" name="workDate" required>
+        </div>
+
+        <div class="form-row">
+            <label for="workOrder">Work Order Number:</label>
+            <input type="text" id="workOrder" name="workOrder" required>
+        </div>
+
+        <div class="form-row">
+            <label for="partyName">Party Name:</label>
+            <input type="text" id="partyName" name="partyName" required>
+        </div>
+
+        <br><br>
+
+        <table>
+            <tr>
+                <th>Product Code</th>
+                <th>Item Description</th>
+                <th>HSN</th>
+                <th>UOM</th>
+                <th>Price</th>
+            </tr>
+            <tr>
+                <td><input type="text" name="productCode[]" required></td>
+                <td><input type="text" name="itemDescription[]" required></td>
+                <td><input type="text" name="hsn[]" required></td>
+                <td><input type="text" name="uom[]" required></td>
+                <td><input type="text" name="price[]" required></td>
+            </tr>
+        </table>
+
+        <br>
+
+        <input type="submit" value="Add">
+    </form>
+
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://script.google.com/macros/s/AKfycbxIa4sWBo9JZKh9mxefxiZF3cQPCIAq-iDGqv2dcPaHd7aWIKkdz1E0kGmvfPBlt04wnw/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
+            xhr.send(formData);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    alert("Form submitted successfully!");
+                    clearFormFields();
+                }
+            };
+        });
+
+        function clearFormFields() {
+            var form = document.getElementById("myForm");
+            var elements = form.elements;
+            for (var i = 0; i < elements.length; i++) {
+                var element = elements[i];
+                if (
+                    element.name !== "workDate" &&
+                    element.name !== "workOrder" &&
+                    element.name !== "partyName" &&
+			element.name !== "Add"
+
+                ) {
+                    element.value = "";
+                }
+            }
+        }
+
+    </script>
+<div id="sheetData"></div>
+<script>
+        function fetchSheetData() {
+            var sheetDataElement = document.getElementById("sheetData");
+
+            // Fetch the cell values from Google Sheets using the Sheets API
+            fetch('https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/workorder!A1:J100?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg')
+                .then(response => response.json())
+                .then(data => {
+                    var values = data.values;
+                    var html = '<table>';
+
+                    // Iterate through the values and create table rows
+                    values.forEach(row => {
+                        html += '<tr>';
+                        row.forEach(cell => {
+                            html += '<td>' + cell + '</td>';
+                        });
+                        html += '</tr>';
+                    });
+
+                    html += '</table>';
+
+                    // Display the table with cell values on the webpage
+                    sheetDataElement.innerHTML = html;
+                })
+                .catch(error => {
+                    console.log('Error:', error);
+                });
+        }
+
+        // Fetch sheet data initially
+        fetchSheetData();
+
+        // Refresh sheet data every 5 seconds
+        setInterval(fetchSheetData, 5000);
+    </script>
+<div class="iframe-container">
+        <iframe src="https://gh0s7-r007.github.io/chatting-app/wsubmit.html"></iframe>
+    </div>
+</html>
