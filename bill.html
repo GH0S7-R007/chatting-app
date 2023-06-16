@@ -6,60 +6,37 @@
   <style>
     body {
       margin: 0;
-      padding: 0;
-      display: flex;
+      overflow: hidden;
     }
-#red-box {
-  position: fixed;
-  bottom: 0;
-  left: 40.2%;
-  transform: translateX(-50%);
-  width: 1500px;
-  height: 60px;
-  background-color: white;
-  
-}
-#red-box1 {
-  position: fixed;
-  top: 0;
-  left: 40.2%;
-  transform: translateX(-50%);
-  width: 1500px;
-  height: 113px;
-  background-color: white;
-  
-}
-#red-box2 {
-  position: fixed;
-  top: 20;
-  left: 81%;
-  transform: translateX(-50%);
-  width: 393px;
-  height: 900px;
-  background-color: white;
-  
-}
 
-    
-    #video-container iframe {
-      position: absolute;
-      top: -03%;
-	right: 03%;
-      left: 10;
+    #fullscreen-container {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 130%;
- overflow: hidden;
+      height: 100vh;
+      z-index: 9999;
     }
+
+    #fullscreen-iframe {
+      width: 100%;
+      height: 100%;
+    }
+
+    #excel-link {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 99999;
     }
   </style>
 </head>
 <body>
-  <div id="right-half"></div>
-    <div id="video-container">
-      <iframe width="260" height="315" src="https://docs.google.com/spreadsheets/d/154Iu_npzsz1DCtmSXiAD_qQoCVEkZZtS-FmdTKgDtZc/edit#gid=1739202686" frameborder="10" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
+  <div id="fullscreen-container">
+    <iframe id="fullscreen-iframe" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSkuUUNISe9PlENvx4V1B2yVI-9AWP9NKn-XA74Aac37aoBgUbYh5idwjLYuHjdA89EZCQHXqod8xWv/pubhtml?widget=true&amp;headers=false"></iframe>
   </div>
-<div id="red-box"></div><div id="red-box1"></div>
-<div id="red-box2"></div>
+  <a href="https://docs.google.com/spreadsheets/d/10KX8R6JldPkYAJlouw03NNFjj16nftisfm6FnPN4j4A/edit#gid=0" id="excel-link">
+    <p>Excel view</p>
+  </a>
 </body>
 </html>
