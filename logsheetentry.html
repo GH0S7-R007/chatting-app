@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Sheet Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #87ceeb;
+        }
+
+        h1 {
+            color: #1e90ff;
+        }
+#red-box {
+  position: fixed;
+  bottom: 0;
+  left: 40.2%;
+  transform: translateX(-50%);
+  width: 1500px;
+  height: 60px;
+  background-color: #cc0808;
+  
+}
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-row label {
+            flex-basis: 30%;
+        }
+
+        .form-row input[type="date"],
+        .form-row input[type="text"] {
+            flex-basis: 25%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="button"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        input[type="button"]:hover,
+        input[type="submit"]:hover {
+            background-color: #187bcd;
+        }
+.iframe-container {
+            width: 1450px;
+            height: 620px;
+        }
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Work Order Entry</h1>
+
+    <form id="myForm">
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Item Description</th>
+                <th>Qty</th>   
+            </tr>
+            <tr>
+                <td><input type="date" name="date[]" required></td>
+<td><input type ="text" name="itemDescription[]"required></td>
+                <td><input type="number" name="qty[]"required></td>
+                
+            </tr>
+        </table>
+
+        <br>
+
+        <input type="submit" value="Add">
+    </form>
+
+    <script>
+function loadDropdownOptions() {
+      var apiKey = 'AIzaSyDhT3l7hQXQSOzOscEk4R7Edz57ec6VF0Q'; // Replace with your Google Sheets API key
+      var sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1ZDnYZ2CJjB4H5tF7czu_R1ygLkZ3eu1i5kNjlD3zOIg/values/Sheet1!B2:B50?key=' + apiKey;
+
+      fetch(sheetUrl)
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          var options = data.values.flat();
+          var select = document.getElementById('test1');
+
+          options.forEach(function(option) {
+            var optionElement = document.createElement('option');
+            optionElement.textContent = option;
+            select.appendChild(optionElement);
+          });
+        })
+        .catch(function(error) {
+          console.error('Error loading dropdown options:', error);
+        });
+    }
+
+
+        document.getElementById("myForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://script.google.com/macros/s/AKfycbzMZcpy6oAGt3nzaww850IoPYj3VeBFGi-Vvvc7BcWiBMd0MXaBToicZL4aO36h2ut6pA/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
+            xhr.send(formData);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    alert("Form submitted successfully!");
+                    clearFormFields();
+                }
+            };
+        });
+
+        function clearFormFields() {
+            var form = document.getElementById("myForm");
+            var elements = form.elements;
+            for (var i = 0; i < elements.length; i++) {
+                var element = elements[i];
+                if (
+                    element.name !== "date" &&
+                    element.name !== "Date" &&
+                    element.name !== "partyName" &&
+			element.name !== "Add"
+
+                ) {
+                    element.value = "";
+                }
+            }
+        }
+
+    </script>
+<div id="sheetData"></div>
+<script>
+        function fetchSheetData() {
+            var sheetDataElement = document.getElementById("sheetData");
+
+            // Fetch the cell values from Google Sheets using the Sheets API
+            fetch('https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/logsheet!A1:J100?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg')
+                .then(response => response.json())
+                .then(data => {
+                    var values = data.values;
+                    var html = '<table>';
+
+                    // Iterate through the values and create table rows
+                    values.forEach(row => {
+                        html += '<tr>';
+                        row.forEach(cell => {
+                            html += '<td>' + cell + '</td>';
+                        });
+                        html += '</tr>';
+                    });
+
+                    html += '</table>';
+
+                    // Display the table with cell values on the webpage
+                    sheetDataElement.innerHTML = html;
+                })
+                .catch(error => {
+                    console.log('Error:', error);
+                });
+        }
+
+        // Fetch sheet data initially
+        fetchSheetData();
+
+        // Refresh sheet data every 5 seconds
+        setInterval(fetchSheetData, 5000);
+    </script>
+<div class="iframe-container">
+        <iframe src="move.html"></iframe>
+    </div>
+</html>
