@@ -12,16 +12,16 @@
         h1 {
             color: #1e90ff;
         }
-#red-box {
-  position: fixed;
-  bottom: 0;
-  left: 40.2%;
-  transform: translateX(-50%);
-  width: 1500px;
-  height: 60px;
-  background-color: #cc0808;
-  
-}
+
+        #red-box {
+            position: fixed;
+            bottom: 0;
+            left: 40.2%;
+            transform: translateX(-50%);
+            width: 1500px;
+            height: 60px;
+            background-color: #cc0808;
+        }
 
         form {
             background-color: #fff;
@@ -54,7 +54,8 @@
             margin-top: 10px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 8px;
             border: 1px solid #ccc;
         }
@@ -76,10 +77,12 @@
         input[type="submit"]:hover {
             background-color: #187bcd;
         }
-.iframe-container {
+
+        .iframe-container {
             width: 1450px;
             height: 620px;
         }
+
         .iframe-container iframe {
             width: 100%;
             height: 100%;
@@ -95,13 +98,16 @@
             <tr>
                 <th>Date</th>
                 <th>Item Description</th>
-                <th>Qty</th>   
+                <th>Qty</th>
             </tr>
             <tr>
                 <td><input type="date" name="date[]" required></td>
-<td><input type ="text" name="itemDescription[]"required></td>
-                <td><input type="number" name="qty[]"required></td>
-                
+                <td>
+                    <select name="itemDescription[]" required>
+                        <option value="">Select an option</option>
+                    </select>
+                </td>
+                <td><input type="number" name="qty[]" required></td>
             </tr>
         </table>
 
@@ -111,29 +117,30 @@
     </form>
 
     <script>
-function loadDropdownOptions() {
-      var apiKey = 'AIzaSyDhT3l7hQXQSOzOscEk4R7Edz57ec6VF0Q'; // Replace with your Google Sheets API key
-      var sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1ZDnYZ2CJjB4H5tF7czu_R1ygLkZ3eu1i5kNjlD3zOIg/values/Sheet1!B2:B50?key=' + apiKey;
+        function loadDropdownOptions() {
+            var apiKey = 'AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'; // Replace with your Google Sheets API key
+            var sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/Sheet2!E2:E?key=' + apiKey;
 
-      fetch(sheetUrl)
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          var options = data.values.flat();
-          var select = document.getElementById('test1');
+            fetch(sheetUrl)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    var options = data.values.flat();
+                    var select = document.querySelector('select[name="itemDescription[]"]');
 
-          options.forEach(function(option) {
-            var optionElement = document.createElement('option');
-            optionElement.textContent = option;
-            select.appendChild(optionElement);
-          });
-        })
-        .catch(function(error) {
-          console.error('Error loading dropdown options:', error);
-        });
-    }
+                    options.forEach(function (option) {
+                        var optionElement = document.createElement('option');
+                        optionElement.textContent = option;
+                        select.appendChild(optionElement);
+                    });
+                })
+                .catch(function (error) {
+                    console.error('Error loading dropdown options:', error);
+                });
+        }
 
+        document.addEventListener("DOMContentLoaded", loadDropdownOptions);
 
         document.getElementById("myForm").addEventListener("submit", function (e) {
             e.preventDefault();
@@ -159,31 +166,31 @@ function loadDropdownOptions() {
                     element.name !== "date" &&
                     element.name !== "Date" &&
                     element.name !== "partyName" &&
-			element.name !== "Add"
-
+                    element.name !== "Add"
                 ) {
                     element.value = "";
                 }
             }
         }
-
     </script>
-<div id="sheetData"></div>
-<script>
+    <div id="sheetData"></div>
+    <script>
         function fetchSheetData() {
             var sheetDataElement = document.getElementById("sheetData");
 
             // Fetch the cell values from Google Sheets using the Sheets API
-            fetch('https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/logsheet!A1:J100?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg')
-                .then(response => response.json())
-                .then(data => {
+            fetch(
+                'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/logsheet!A1:J100?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'
+            )
+                .then((response) => response.json())
+                .then((data) => {
                     var values = data.values;
                     var html = '<table>';
 
                     // Iterate through the values and create table rows
-                    values.forEach(row => {
+                    values.forEach((row) => {
                         html += '<tr>';
-                        row.forEach(cell => {
+                        row.forEach((cell) => {
                             html += '<td>' + cell + '</td>';
                         });
                         html += '</tr>';
@@ -194,7 +201,7 @@ function loadDropdownOptions() {
                     // Display the table with cell values on the webpage
                     sheetDataElement.innerHTML = html;
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.log('Error:', error);
                 });
         }
@@ -205,7 +212,8 @@ function loadDropdownOptions() {
         // Refresh sheet data every 5 seconds
         setInterval(fetchSheetData, 5000);
     </script>
-<div class="iframe-container">
-        <iframe src="move.html"></iframe>
+    <div class="iframe-container">
+        <iframe src="https://gh0s7-r007.github.io/chatting-app/logsheetbuttons.html"></iframe>
     </div>
+</body>
 </html>
