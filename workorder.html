@@ -141,7 +141,7 @@
 
         <br>
 
-        <input type="submit" value="Add Raw">
+        <input type="submit" value="Save">
     </form>
 
     <script>
@@ -154,29 +154,27 @@
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    alert("Raw added");
+                    
                     clearFormFields();
                 }
             };
         });
 
         function clearFormFields() {
-            var form = document.getElementById("myForm");
-            var elements = form.elements;
-            for (var i = 0; i < elements.length; i++) {
-                var element = elements[i];
-                if (
-                    element.name !== "workDate" &&
-                    element.name !== "workOrder" &&
-                    element.name !== "partyName" &&
-			element.name !== "Add"
-
-                ) {
-                    element.value = "";
-                }
-            }
+    var form = document.getElementById("myForm");
+    var elements = form.elements;
+    for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        if (
+            element.name !== "workDate" &&
+            element.name !== "workOrder" &&
+            element.name !== "partyName" &&
+            !(element.type === "submit" && element.value === "Save")
+        ) {
+            element.value = "";
         }
-
+    }
+}
     </script>
 <div id="sheetData"></div>
 <script>
