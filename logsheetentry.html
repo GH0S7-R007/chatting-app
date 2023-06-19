@@ -98,7 +98,7 @@
             <tr>
                 <th>Date</th>
                 <th>Item Description</th>
-                <th>Qty</th>
+                <th>Quantity</th>
             </tr>
             <tr>
                 <td><input type="date" name="date[]" required></td>
@@ -151,7 +151,7 @@
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    alert("Form submitted successfully!");
+                    
                     clearFormFields();
                 }
             };
