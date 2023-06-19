@@ -91,30 +91,33 @@
     </style>
 </head>
 <body>
-    <h1>Work Order Entry</h1>
+    <h1>Bill Generation</h1>
 
     <form id="myForm">
         <table>
             <tr>
                 <th>Date</th>
                 <th>Item Description</th>
+				<th>Party Name</th>
             </tr>
             <tr>
                 <td><input type="date" name="date[]" required></td>
                 <td>
                 <input type="date" name="date1[]" required></td>
+                <td><select name="party" required="">
+                        <option value="">Select a party</option></td>
             </tr>
         </table>
 
         <br>
 
-        <input type="submit" value="Add">
+        <input type="submit" value="Search">
     </form>
 
     <script>
         function loadDropdownOptions() {
             var apiKey = 'AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'; // Replace with your Google Sheets API key
-            var sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/Sheet2!E2:E?key=' + apiKey;
+            var sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/Sheet2!B2:B?key=' + apiKey;
 
             fetch(sheetUrl)
                 .then(function (response) {
@@ -122,7 +125,7 @@
                 })
                 .then(function (data) {
                     var options = data.values.flat();
-                    var select = document.querySelector('select[name="itemDescription[]"]');
+                    var select = document.querySelector('select[name="party"]');
 
                     options.forEach(function (option) {
                         var optionElement = document.createElement('option');
@@ -141,12 +144,12 @@
             e.preventDefault();
             var formData = new FormData(this);
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://script.google.com/macros/s/AKfycbyi9-EOJoKAcGngoEfkzMGVzHLquSAYkZrPUP_0J34JW8xZcU_KMnF30RAlY_EwioU4-Q/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
+            xhr.open("POST", "https://script.google.com/macros/s/AKfycbzVoWeWyW4YkCPinlYMq6P6kDFwSHX7dmDOo_SSXpkjFP7PiKO5ZIu-pQEYPHFZZ3Wh/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
             xhr.send(formData);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    alert("Form submitted successfully!");
+                    alert(" The data has been successfully filtered based on the specified conditions.");
                     clearFormFields();
                 }
             };
