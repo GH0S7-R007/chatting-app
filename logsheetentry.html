@@ -91,7 +91,7 @@
     </style>
 </head>
 <body>
-    <h1>Work Order Entry</h1>
+    <h1>Logsheet Entry</h1>
 
     <form id="myForm">
         <table>
@@ -163,10 +163,10 @@
             for (var i = 0; i < elements.length; i++) {
                 var element = elements[i];
                 if (
-                    element.name !== "date" &&
+                    element.name !== "date[]" &&
                     element.name !== "Date" &&
-                    element.name !== "partyName" &&
-                    element.name !== "Add"
+                    element.name !== "Add" &&
+                    (element.type !== "submit" || element.value !== "Add")
                 ) {
                     element.value = "";
                 }
