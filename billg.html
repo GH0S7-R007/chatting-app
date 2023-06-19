@@ -96,8 +96,8 @@
     <form id="myForm">
         <table>
             <tr>
-                <th>Date</th>
-                <th>Item Description</th>
+                <th>From date of</th>
+                <th>To date of</th>
 				<th>Party Name</th>
             </tr>
             <tr>
@@ -149,27 +149,25 @@
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    alert(" The data has been successfully filtered based on the specified conditions.");
+                    
                     clearFormFields();
                 }
             };
         });
 
         function clearFormFields() {
-            var form = document.getElementById("myForm");
-            var elements = form.elements;
-            for (var i = 0; i < elements.length; i++) {
-                var element = elements[i];
-                if (
-                    element.name !== "date" &&
-                    element.name !== "Date" &&
-                    element.name !== "partyName" &&
-                    element.name !== "Add"
-                ) {
-                    element.value = "";
-                }
-            }
+    var form = document.getElementById("myForm");
+    var elements = form.elements;
+    for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        if (
+         
+            !(element.type === "submit" && element.value === "Search")
+        ) {
+            element.value = "";
         }
+    }
+}
     </script>
     <div id="sheetData"></div>
     <script>
