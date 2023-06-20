@@ -115,9 +115,10 @@
             <input type="text" id="workOrder" name="workOrder" required>
         </div>
 
-        <div class="form-row">
+         <div class="form-row">
             <label for="partyName">Party Name:</label>
-            <input type="text" id="partyName" name="partyName" required>
+            <select id="partyName" name="partyName" required><option value="">Select an option-----------------------</option>
+            </select>
         </div>
 
         <br><br>
@@ -145,6 +146,33 @@
     </form>
 
     <script>
+
+ function loadDropdownOptions() {
+            var apiKey = 'AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'; // Replace with your Google Sheets API key
+            var sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/ledger!A2:A?key=' + apiKey;
+
+            fetch(sheetUrl)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    var options = data.values.flat();
+                    var select = document.querySelector('select[name="partyName"]');
+
+                    options.forEach(function (option) {
+                        var optionElement = document.createElement('option');
+                        optionElement.textContent = option;
+                        select.appendChild(optionElement);
+                    });
+                })
+                .catch(function (error) {
+                    console.error('Error loading dropdown options:', error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadDropdownOptions);
+
+
         document.getElementById("myForm").addEventListener("submit", function (e) {
             e.preventDefault();
             var formData = new FormData(this);
