@@ -99,15 +99,17 @@
                 <th>Date</th>
                 <th>Item Description</th>
                 <th>Quantity</th>
+                <th>Location</th>
             </tr>
             <tr>
-                <td><input type="date" name="date[]" required></td>
+                <td><input type="date" name="date" required></td>
                 <td>
-                    <select name="itemDescription[]" required>
+                    <select name="itemDescription" required>
                         <option value="">Select an option</option>
                     </select>
                 </td>
-                <td><input type="number" name="qty[]" required></td>
+                <td><input type="number" name="qty" required></td>
+                <td><input type="text" name="loc" required></td>
             </tr>
         </table>
 
@@ -127,7 +129,7 @@
                 })
                 .then(function (data) {
                     var options = data.values.flat();
-                    var select = document.querySelector('select[name="itemDescription[]"]');
+                    var select = document.querySelector('select[name="itemDescription"]');
 
                     options.forEach(function (option) {
                         var optionElement = document.createElement('option');
@@ -146,7 +148,7 @@
             e.preventDefault();
             var formData = new FormData(this);
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://script.google.com/macros/s/AKfycbzMZcpy6oAGt3nzaww850IoPYj3VeBFGi-Vvvc7BcWiBMd0MXaBToicZL4aO36h2ut6pA/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
+            xhr.open("POST", "https://script.google.com/macros/s/AKfycbz0shUGei5zH5X89vaYlag1fzbPe9kUdjQecVjLy1Ll0XeWIltgVLHtQQ8fS9PO8WTVrg/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
             xhr.send(formData);
 
             xhr.onreadystatechange = function () {
@@ -163,7 +165,7 @@
             for (var i = 0; i < elements.length; i++) {
                 var element = elements[i];
                 if (
-                    element.name !== "date[]" &&
+                    element.name !== "date" &&
                     element.name !== "Date" &&
                     element.name !== "Add" &&
                     (element.type !== "submit" || element.value !== "Add")
