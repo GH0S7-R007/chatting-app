@@ -99,9 +99,102 @@
             height: 100%;
             border: none;
         }
+.right-align {
+  float: right;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color:  #33bbff;
+  border-radius: 10px;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: White;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
     </style>
 </head>
 <body>
+<div class="navbar">
+  
+  <div class="dropdown">
+    <button class="dropbtn">Entry 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="party.html"target="_blank">Ledger entry</a>
+      <a href="logsheetentry.html" target="_blank">Log Sheet Entry</a>
+      <a href="billg.html" target="_blank">Bill Generation</a></div></div>
+      <div class="dropdown">
+      <button class="dropbtn">Utilities
+    <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">Backup</a>
+      <a href="#">Admin</a></div></div>
+       <div class="dropdown">
+      <button class="dropbtn">View
+    <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+	<a href="bill.html">Bill Print</a>
+      <a href="workdb.html">Work order DB</a>
+      <a href="logdb.html">Logsheet DB</a>
+      <a href="#">View Ledger Data</a></div></div>
+       <div class="right-align">
+    <a href="https://gh0s7-r007.github.io/chatting-app/main.html">Logout</a>
+  </div></div>
     <h1>Work Order Entry</h1>
 
     <form id="myForm">
