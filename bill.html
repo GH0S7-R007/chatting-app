@@ -1,42 +1,559 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html><head><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+    <title>Google Sheet Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #87ceeb;
+        }
+
+        h1 {
+            color: #1e90ff;
+        }
+
+        #red-box {
+            position: fixed;
+            bottom: 0;
+            left: 40.2%;
+            transform: translateX(-50%);
+            width: 1500px;
+            height: 60px;
+            background-color: #cc0808;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-row label {
+            flex-basis: 30%;
+        }
+
+        .form-row input[type="date"],
+        .form-row input[type="text"] {
+            flex-basis: 25%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="button"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        input[type="button"]:hover,
+        input[type="submit"]:hover {
+            background-color: #187bcd;
+        }
+
+        .iframe-container {
+            width: 1450px;
+            height: 620px;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+         .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1e90ff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .right-align {
+  float: right;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color:  #33bbff;
+  border-radius: 10px;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: White;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+    </style>
+</head>
+<body data-new-gr-c-s-check-loaded="14.1112.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.1112.0">
+<div class="navbar">
+  
+  <div class="dropdown">
+    <button class="dropbtn">Entry 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="party.html" target="_blank">Ledger entry</a>
+      <a href="workorder.html" target="_blank">Work Order Entry</a>
+      <a href="logsheetentry.html" target="_blank">Log Sheet Entry</a>
+      </div></div>
+      <div class="dropdown">
+      <button class="dropbtn">Utilities
+    <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="#">Backup</a>
+      <a href="#">Admin</a></div></div>
+       <div class="dropdown">
+      <button class="dropbtn">View
+    <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+	<a href="bill.html">Bill Print</a>
+      <a href="workdb.html">Work order DB</a>
+      <a href="logdb.html">Logsheet DB</a>
+      <a href="#">View Ledger Data</a></div></div>
+       <div class="right-align">
+    <a href="https://gh0s7-r007.github.io/chatting-app/main.html">Logout</a>
+  </div></div>
+    <h1>Bill Generation</h1>
+
+    <form id="myForm">
+        <table>
+            <tbody><tr>
+                <th>From date of</th>
+                <th>To date of</th>
+				<th>Party Name</th>
+            </tr>
+            <tr>
+                <td><input type="date" name="date[]" required=""></td>
+                <td>
+                <input type="date" name="date1[]" required=""></td>
+                <td><select name="party" required="">
+                        <option value="">Select a party</option><option>hinglaj</option><option>hinglaj</option><option>hinglaj</option><option>suresh</option><option>suresh</option><option>suresh</option><option>suresh</option><option>suresh</option></select></td>
+            </tr>
+        </tbody></table>
+
+        <br>
+
+        <input type="submit" value="Search">
+    </form>
+
+    <script>
+        function loadDropdownOptions() {
+            var apiKey = 'AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'; // Replace with your Google Sheets API key
+            var sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/Sheet2!B2:B?key=' + apiKey;
+
+            fetch(sheetUrl)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    var options = data.values.flat();
+                    var select = document.querySelector('select[name="party"]');
+
+                    options.forEach(function (option) {
+                        var optionElement = document.createElement('option');
+                        optionElement.textContent = option;
+                        select.appendChild(optionElement);
+                    });
+                })
+                .catch(function (error) {
+                    console.error('Error loading dropdown options:', error);
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadDropdownOptions);
+
+        document.getElementById("myForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://script.google.com/macros/s/AKfycbzVoWeWyW4YkCPinlYMq6P6kDFwSHX7dmDOo_SSXpkjFP7PiKO5ZIu-pQEYPHFZZ3Wh/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
+            xhr.send(formData);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                    
+                    clearFormFields();
+                }
+            };
+        });
+
+        function clearFormFields() {
+    var form = document.getElementById("myForm");
+    var elements = form.elements;
+    for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        if (
+         
+            !(element.type === "submit" && element.value === "Search")
+        ) {
+            element.value = "";
+        }
+    }
+}
+    </script>
+    <div id="sheetData"><table><tbody><tr><td>Sl.N</td><td>Date</td><td>Item Description</td><td>Qty</td><td>Party Name</td><td>Product Code</td><td>HSN Code</td><td>Unit</td></tr><tr><td>1</td><td>6/2/2023</td><td>ms welding joint</td><td>1</td><td>suresh</td><td>ase1234</td><td>123456</td><td>inch D Nos</td></tr></tbody></table></div>
+    <script>
+        function fetchSheetData() {
+            var sheetDataElement = document.getElementById("sheetData");
+
+            // Fetch the cell values from Google Sheets using the Sheets API
+            fetch(
+                'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/billfil!A3:H900?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'
+            )
+                .then((response) => response.json())
+                .then((data) => {
+                    var values = data.values;
+                    var html = '<table>';
+
+                    // Iterate through the values and create table rows
+                    values.forEach((row) => {
+                        html += '<tr>';
+                        row.forEach((cell) => {
+                            html += '<td>' + cell + '</td>';
+                        });
+                        html += '</tr>';
+                    });
+
+                    html += '</table>';
+
+                    // Display the table with cell values on the webpage
+                    sheetDataElement.innerHTML = html;
+                })
+                .catch((error) => {
+                    console.log('Error:', error);
+                });
+        }
+
+        // Fetch sheet data initially
+        fetchSheetData();
+
+        // Refresh sheet data every 5 seconds
+        setInterval(fetchSheetData, 5000);
+    </script>
+    <div class="iframe-container">
+        <iframe src="https://gh0s7-r007.github.io/chatting-app/billbuttons.html"></iframe>
+    </div>
+<a href="https://docs.google.com/spreadsheets/d/13YkdDgSO698ourYIVO0ArNbuCRsF_18sQxv5szzJLhs/edit#gid=0" class="button">Excel</a>
+
+
+<iframe id="sandbox-iframe" src="chrome-extension://iapifmceeokikomajpccajhjpacjmibe/html/sandbox.html" style="display: none;"></iframe><template id="auto-clicker-autofill-popup">
   <style>
-    body {
-      margin: 0;
+    @import url(https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css);
+    @import url(https://fonts.googleapis.com/css?family=Poppins:300,400,500&subset=latin-ext);
+    #body {
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 30px 50px 0 rgb(44 49 59 / 20%);
       overflow: hidden;
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      min-width: 250px;
+      max-width: 400px;
     }
-
-    #fullscreen-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      z-index: 9999;
+    .modal-dialog {
+      margin: auto;
     }
-
-    #fullscreen-iframe {
-      width: 200%;
-      height: 100%;
+    .modal-content {
+      border: none;
     }
-
-    #excel-link {
+    /*Header*/
+    .modal-header {
+      --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+      padding-left: 0;
+      height: 47px;
+      background: rgba(112.520718, 44.062154, 249.437846, 0.1);
+      color: #fff;
+      border: none;
+    }
+    .modal-header button.btn {
+      color: #712cf9;
+      width: 1em;
+      height: 1em;
+      display: flex;
+      box-sizing: content-box;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      --bs-btn-close-opacity: 1;
+      --bs-btn-close-hover-opacity: 0.75;
+      --bs-btn-close-focus-shadow: 0 0 0 0.25em rgba(13, 110, 253, 0.25);
+      opacity: var(--bs-btn-close-opacity);
+    }
+    .modal-header button.btn svg {
+      width: inherit;
+      height: inherit;
+    }
+    .modal-header button.btn:focus {
+      box-shadow: var(--bs-btn-close-focus-shadow);
+    }
+    .modal-header button.btn:hover {
+      opacity: var(--bs-btn-close-hover-opacity);
+    }
+    .modal-header button.expand .bi-arrows-expand {
+      display: block !important;
+    }
+    .modal-header button.expand .bi-dash-lg {
+      display: none;
+    }
+    .modal-header .modal-title {
+      padding-left: 2em;
+      color: #712cf9;
+      position: relative;
+      font-size: 1em;
+    }
+    .modal-header .modal-title::before {
+      content: '';
       position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 99999;
+      left: 0.75em;
+      top: calc(50% - 0.375em);
+      display: block;
+      width: 0.75em;
+      height: 0.75em;
+      border-radius: 50%;
+      background: red;
+      cursor: pointer;
+      box-shadow: 0 0 0 rgba(255, 0, 0, 0.4);
+      animation: pulse 2s infinite;
+    }
+    @-webkit-keyframes pulse {
+      0% {
+        -webkit-box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+      }
+      70% {
+        -webkit-box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+      }
+      100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+      }
+    }
+    @keyframes pulse {
+      0% {
+        -moz-box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.4);
+      }
+      70% {
+        -moz-box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+        box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+      }
+      100% {
+        -moz-box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+      }
+    }
+    /*Body*/
+    .modal-body {
+      max-height: calc(100vh - 7em);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0.5em 0;
+    }
+    td div {
+      vertical-align: middle;
+      width: 180px;
+      line-height: 24px;
+    }
+    tr button {
+      visibility: hidden;
+    }
+    tr:hover button {
+      visibility: visible;
+    }
+    /*Footer*/
+    .modal-footer {
+      padding: 0;
+      --bs-bg-opacity: 1;
+      background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)) !important;
+    }
+    .modal-footer a {
+      display: flex;
+      align-items: center;
+    }
+    .modal-footer a svg {
+      margin-right: 0.15em;
+    }
+    .modal-footer a:hover {
+      color: #712cf9 !important;
     }
   </style>
-</head>
-<body>
-  <div id="fullscreen-container">
-    <iframe id="fullscreen-iframe" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSkuUUNISe9PlENvx4V1B2yVI-9AWP9NKn-XA74Aac37aoBgUbYh5idwjLYuHjdA89EZCQHXqod8xWv/pubhtml?widget=true&amp;headers=false"></iframe>
+  <div id="body" class="modal position-static d-block" data-bs-theme="light">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <header class="modal-header">
+          <h6 class="modal-title text-truncate">Auto Clicker - AutoFill</h6>
+          <div class="d-flex justify-content-center align-items-center">
+            <button type="button" class="btn ms-2" aria-label="collapse">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-expand" style="display: none" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8ZM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2ZM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10Z"></path>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8Z"></path>
+              </svg>
+            </button>
+            <button type="button" class="btn ms-2" data-bs-dismiss="modal" aria-label="Close">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"></path>
+              </svg>
+            </button>
+          </div>
+        </header>
+        <main class="modal-body" id="collapse-main">
+          <slot name="actions" hidden="">
+            <table class="table table-sm table-hover mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Name/Element</th>
+                  <th scope="col">Value</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider"></tbody>
+            </table>
+          </slot>
+          <slot name="no-actions">
+            <div class="px-2">
+              <div class="card w-100">
+                <div class="card-body">
+                  <h5 class="card-title mb-3 text-primary">Start filling form...</h5>
+                  <hr>
+                  <h6 class="card-subtitle mb-2 text-muted">If you have already filled form</h6>
+                  <button type="button" auto-generate-config="" class="btn btn-sm btn-outline-secondary">Already Filled ?</button>
+                </div>
+              </div>
+            </div>
+          </slot>
+        </main>
+        <footer class="modal-footer justify-content-center" id="collapse-footer">
+          <ul class="nav justify-content-between w-100">
+            <li class="nav-item">
+              <a href="https://getautoclicker.com/docs/3.x/getting-started" class="nav-link px-2 text-muted" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-richtext" viewBox="0 0 16 16">
+                  <path d="M7 4.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0zm-.861 1.542 1.33.886 1.854-1.855a.25.25 0 0 1 .289-.047l1.888.974V7.5a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V7s1.54-1.274 1.639-1.208zM5 9a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"></path>
+                  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"></path>
+                </svg>
+                Docs
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="https://discord.gg/ubMBeX3" class="nav-link px-2 text-muted" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+                  <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9.06 9.06 0 0 0 8 15z"></path>
+                </svg>
+                Chat
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="https://dev.getautoclicker.com/" class="nav-link px-2 text-muted" target="_blank" id="settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+                  <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"></path>
+                </svg>
+                Advance
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="https://github.com/sponsors/Dhruv-Techapps" class="nav-link px-2 text-muted" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-balloon-heart text-danger" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="m8 2.42-.717-.737c-1.13-1.161-3.243-.777-4.01.72-.35.685-.451 1.707.236 3.062C4.16 6.753 5.52 8.32 8 10.042c2.479-1.723 3.839-3.29 4.491-4.577.687-1.355.587-2.377.236-3.061-.767-1.498-2.88-1.882-4.01-.721L8 2.42Zm-.49 8.5c-10.78-7.44-3-13.155.359-10.063.045.041.089.084.132.129.043-.045.087-.088.132-.129 3.36-3.092 11.137 2.624.357 10.063l.235.468a.25.25 0 1 1-.448.224l-.008-.017c.008.11.02.202.037.29.054.27.161.488.419 1.003.288.578.235 1.15.076 1.629-.157.469-.422.867-.588 1.115l-.004.007a.25.25 0 1 1-.416-.278c.168-.252.4-.6.533-1.003.133-.396.163-.824-.049-1.246l-.013-.028c-.24-.48-.38-.758-.448-1.102a3.177 3.177 0 0 1-.052-.45l-.04.08a.25.25 0 1 1-.447-.224l.235-.468ZM6.013 2.06c-.649-.18-1.483.083-1.85.798-.131.258-.245.689-.08 1.335.063.244.414.198.487-.043.21-.697.627-1.447 1.359-1.692.217-.073.304-.337.084-.398Z"></path>
+                </svg>
+                Sponsors
+              </a>
+            </li>
+          </ul>
+        </footer>
+      </div>
+    </div>
   </div>
-  <a href="https://docs.google.com/spreadsheets/d/10KX8R6JldPkYAJlouw03NNFjj16nftisfm6FnPN4j4A/edit#gid=0" id="Convert to Excel">
-    <p>Excel view</p>
-  </a>
-</body>
-</html>
+</template>
+<template id="auto-clicker-autofill-popup-tr">
+  <tr>
+    <td><div class="text-truncate"></div></td>
+    <td><div class="text-truncate"></div></td>
+    <td>
+      <button type="button" class="btn-close" data-bs-dismiss="tr" aria-label="Close"></button>
+    </td>
+  </tr>
+</template>
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
