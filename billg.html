@@ -1,19 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Google Sheet Integration</title>
+    <title>Party Information</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #87ceeb;
+            background-color: #f2f2f2;
         }
 
         h1 {
             color: #1e90ff;
         }
 
-        #red-box {
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .form-row label {
+            flex-basis: 30%;
+            font-weight: bold;
+        }
+
+        .form-row input[type="text"] {
+            flex-basis: 70%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #1e90ff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #187bcd;
+        }
+         #red-box {
             position: fixed;
             bottom: 0;
             left: 40.2%;
@@ -98,6 +139,16 @@
             font-size: 16px;
             margin-right: 10px;
         }
+        .button1 {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1e90ff;
+            color: red;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
         .right-align {
   float: right;
 }
@@ -165,156 +216,79 @@
     </style>
 </head>
 <body>
-<div class="navbar">
-  
-  <div class="dropdown">
-    <button class="dropbtn">Entry 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="party.html"target="_blank">Ledger entry</a>
-      <a href="workorder.html" target="_blank">Work Order Entry</a>
-      <a href="logsheetentry.html" target="_blank">Log Sheet Entry</a>
-      </div></div>
-      <div class="dropdown">
-      <button class="dropbtn">Utilities
-    <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="#">Backup</a>
-      <a href="#">Admin</a></div></div>
-       <div class="dropdown">
-      <button class="dropbtn">View
-    <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-	<a href="bill.html">Bill Print</a>
-      <a href="workdb.html">Work order DB</a>
-      <a href="logdb.html">Logsheet DB</a>
-      <a href="#">View Ledger Data</a></div></div>
-       <div class="right-align">
-    <a href="https://gh0s7-r007.github.io/chatting-app/main.html">Logout</a>
-  </div></div>
-    <h1>Bill Generation</h1>
+    <h1>Head Creation</h1>
 
     <form id="myForm">
-        <table>
-            <tr>
-                <th>From date of</th>
-                <th>To date of</th>
-				<th>Party Name</th>
-            </tr>
-            <tr>
-                <td><input type="date" name="date[]" required></td>
-                <td>
-                <input type="date" name="date1[]" required></td>
-                <td><select name="party" required="">
-                        <option value="">Select a party</option></td>
-            </tr>
-        </table>
+        <div class="form-row">
+            <label for="partyName">Party Name:</label>
+            <input type="text" id="partyName" name="partyName" required>
+        </div>
 
-        <br>
+        <div class="form-row">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+        </div>
 
-        <input type="submit" value="Search">
+        <div class="form-row">
+            <label for="address1">Area, Locality</label>
+            <input type="text" id="address1" name="address1" required>
+        </div>
+
+        <div class="form-row">
+            <label for="address2">State, Pin code</label>
+            <input type="text" id="address2" name="address2" required>
+        </div>
+
+        <div class="form-row">
+            <label for="gst">GST:</label>
+            <input type="text" id="gst" name="gst" required>
+        </div>
+        <div class="form-row">
+            <label for="pon">PO Number:</label>
+            <input type="text" id="pon" name="pon" required>
+        </div>
+        
+        <div class="form-row">
+            <label for="pod">PO Date:</label>
+            <input type="text" id="pod" name="pod" required>
+        </div>
+        <div class="form-row">
+            <label for="bn">Bill No:</label>
+            <input type="text" id="bn" name="bn" required>
+        </div>
+        <div class="form-row">
+            <label for="bd">bill Date:</label>
+            <input type="text" id="bd" name="bd" required>
+        </div>
+        <div class="form-row">
+            <label for="extra">extra:</label>
+            <input type="text" id="extra" name="extra" required>
+        </div>
+
+        <input type="submit" value="Save">
     </form>
 
     <script>
-        function loadDropdownOptions() {
-            var apiKey = 'AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'; // Replace with your Google Sheets API key
-            var sheetUrl = 'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/Sheet2!B2:B?key=' + apiKey;
-
-            fetch(sheetUrl)
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    var options = data.values.flat();
-                    var select = document.querySelector('select[name="party"]');
-
-                    options.forEach(function (option) {
-                        var optionElement = document.createElement('option');
-                        optionElement.textContent = option;
-                        select.appendChild(optionElement);
-                    });
-                })
-                .catch(function (error) {
-                    console.error('Error loading dropdown options:', error);
-                });
-        }
-
-        document.addEventListener("DOMContentLoaded", loadDropdownOptions);
-
         document.getElementById("myForm").addEventListener("submit", function (e) {
             e.preventDefault();
             var formData = new FormData(this);
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://script.google.com/macros/s/AKfycbzVoWeWyW4YkCPinlYMq6P6kDFwSHX7dmDOo_SSXpkjFP7PiKO5ZIu-pQEYPHFZZ3Wh/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
+            xhr.open("POST", "https://script.google.com/macros/s/AKfycbwQ7KmicY4zFrbSSZCQ3snwPFqZ64f4V64UqqnH-f_atuI94_T2xorgdKGdfPl6GhyrRg/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
             xhr.send(formData);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    
                     clearFormFields();
+                    
                 }
             };
         });
 
         function clearFormFields() {
-    var form = document.getElementById("myForm");
-    var elements = form.elements;
-    for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        if (
-         
-            !(element.type === "submit" && element.value === "Search")
-        ) {
-            element.value = "";
+            var form = document.getElementById("myForm");
+            form.reset();
         }
-    }
-}
-    </script>
-    <div id="sheetData"></div>
-    <script>
-        function fetchSheetData() {
-            var sheetDataElement = document.getElementById("sheetData");
-
-            // Fetch the cell values from Google Sheets using the Sheets API
-            fetch(
-                'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/billfil!A3:H900?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'
-            )
-                .then((response) => response.json())
-                .then((data) => {
-                    var values = data.values;
-                    var html = '<table>';
-
-                    // Iterate through the values and create table rows
-                    values.forEach((row) => {
-                        html += '<tr>';
-                        row.forEach((cell) => {
-                            html += '<td>' + cell + '</td>';
-                        });
-                        html += '</tr>';
-                    });
-
-                    html += '</table>';
-
-                    // Display the table with cell values on the webpage
-                    sheetDataElement.innerHTML = html;
-                })
-                .catch((error) => {
-                    console.log('Error:', error);
-                });
-        }
-
-        // Fetch sheet data initially
-        fetchSheetData();
-
-        // Refresh sheet data every 5 seconds
-        setInterval(fetchSheetData, 5000);
-    </script>
-    <div class="iframe-container">
-        <iframe src="https://gh0s7-r007.github.io/chatting-app/billbuttons.html"></iframe>
-    </div>
-<a href="https://docs.google.com/spreadsheets/d/13YkdDgSO698ourYIVO0ArNbuCRsF_18sQxv5szzJLhs/edit#gid=0" class="button">Excel</a>
+    </script><br>
+    <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTU2jT8unR6xtIkmwlhMinm8t5yUfZjdqQ2JgJPw4BrB683jR2xVxnsZznsXD_mDASZNo5PZvsuyupb/pubhtml?gid=0&single=true" class="button">Log Sheet Print</a><a href="https://docs.google.com/spreadsheets/d/13YkdDgSO698ourYIVO0ArNbuCRsF_18sQxv5szzJLhs/edit#gid=0">Excel</a><br><br><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_IFzhE35LDaf02heRDoJEFd7uznOv8yRyB-UztfuFq-BsjRomCIvL18Tlh7g1W-8vWES8qXixqEAQ/pubhtml?gid=0&single=true" class="button">Bill Print</a><a href="https://docs.google.com/spreadsheets/d/10KX8R6JldPkYAJlouw03NNFjj16nftisfm6FnPN4j4A/edit#gid=0">Excel</a>
 </body>
 </html>
