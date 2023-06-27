@@ -167,6 +167,8 @@
                 <th>Item Description</th>
                 <th>Quantity</th>
                 <th>Location</th>
+                <th>Size</th>
+                <th>Job Title</th>
             </tr>
             <tr>
                 <td><input type="date" name="date" required></td>
@@ -176,7 +178,9 @@
                     </select>
                 </td>
                 <td><input type="number" name="qty" required></td>
-                <td><input type="text" name="loc" required></td>
+                <td><input type="text" name="location" required></td>
+                <td><input type="text" name="size" required></td>
+                <td><input type="text" name="job" required></td>
             </tr>
         </table>
 
@@ -184,7 +188,7 @@
 
         <input type="submit" value="Add">
     </form>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function loadDropdownOptions() {
             var apiKey = 'AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'; // Replace with your Google Sheets API key
@@ -211,21 +215,42 @@
 
         document.addEventListener("DOMContentLoaded", loadDropdownOptions);
 
-        document.getElementById("myForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://script.google.com/macros/s/AKfycbz0shUGei5zH5X89vaYlag1fzbPe9kUdjQecVjLy1Ll0XeWIltgVLHtQQ8fS9PO8WTVrg/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
-            xhr.send(formData);
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    
-                    clearFormFields();
-                }
-            };
+         $(document).ready(function() {
+            $('#myForm').submit(function(event) {
+                event.preventDefault();
+                submitForm();
+            });
         });
 
+        function submitForm() {
+            var form = document.getElementById("myForm");
+            var formData = new FormData(form);
+            var jsonData = {};
+
+            for (var [key, value] of formData.entries()) {
+                jsonData[key] = value;
+            }
+
+            var scriptUrl = 'https://script.google.com/macros/s/AKfycbwOaBUmqkROvnOI4ch-ecZcnE5F1duf1aJ2s5LlZfxtASgUBuBoHGI5PDjMH10hi3UcOQ/exec';
+
+            $.ajax({
+                url: scriptUrl,
+                type: 'POST', // Change the request type to POST
+                data: JSON.stringify(jsonData), // Convert the data to a JSON string
+                success: function(response) {
+                    clearFormFields();
+                    alert(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function clearFormFields() {
+            var form = document.getElementById("myForm");
+            form.reset();
+        }
         function clearFormFields() {
             var form = document.getElementById("myForm");
             var elements = form.elements;
