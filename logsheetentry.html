@@ -164,23 +164,25 @@
         <table>
             <tr>
                 <th>Date</th>
+		<th>Job Title</th>
+		<th>Location</th>
                 <th>Item Description</th>
                 <th>Quantity</th>
-                <th>Location</th>
                 <th>Size</th>
-                <th>Job Title</th>
+                
             </tr>
             <tr>
                 <td><input type="date" name="date" required></td>
+		<td><input type="text" name="job" required></td>
+		<td><input type="text" name="location" required></td>
                 <td>
                     <select name="itemDescription" required>
                         <option value="">Select an option</option>
                     </select>
                 </td>
                 <td><input type="number" name="qty" required></td>
-                <td><input type="text" name="location" required></td>
-                <td><input type="text" name="size" required></td>
-                <td><input type="text" name="job" required></td>
+              <td><input type="number" name="size" required></td>
+                
             </tr>
         </table>
 
@@ -213,7 +215,7 @@
                 });
         }
 
-        document.addEventListener("DOMContentLoaded", loadDropdownOptions);
+         document.addEventListener("DOMContentLoaded", loadDropdownOptions);
 
          $(document).ready(function() {
             $('#myForm').submit(function(event) {
@@ -233,20 +235,25 @@
 
             var scriptUrl = 'https://script.google.com/macros/s/AKfycbwOaBUmqkROvnOI4ch-ecZcnE5F1duf1aJ2s5LlZfxtASgUBuBoHGI5PDjMH10hi3UcOQ/exec';
 
+            var submitButton = document.querySelector('input[type="submit"]');
+            submitButton.disabled = true;
+
             $.ajax({
                 url: scriptUrl,
-                type: 'POST', // Change the request type to POST
-                data: JSON.stringify(jsonData), // Convert the data to a JSON string
+                type: 'POST',
+                data: JSON.stringify(jsonData),
                 success: function(response) {
                     clearFormFields();
                     alert(response);
                 },
                 error: function(xhr, status, error) {
                     console.log(error);
+                },
+                complete: function() {
+                    submitButton.disabled = false;
                 }
             });
         }
-
         function clearFormFields() {
             var form = document.getElementById("myForm");
             form.reset();
@@ -258,8 +265,9 @@
                 var element = elements[i];
                 if (
                     element.name !== "date" &&
-                    element.name !== "Date" &&
+                    element.name !== "location" &&
                     element.name !== "Add" &&
+		element.name !== "job" &&
                     (element.type !== "submit" || element.value !== "Add")
                 ) {
                     element.value = "";
@@ -274,7 +282,7 @@
 
             // Fetch the cell values from Google Sheets using the Sheets API
             fetch(
-                'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/logsheet!A1:J100?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'
+                'https://sheets.googleapis.com/v4/spreadsheets/15JkhxZdirmNGm0j1MiDJrH4xP4rhU-MMaDioD_FwkEk/values/logsheet!A1:K100?key=AIzaSyAy8Jf6ClD6RZXA-Lax8P8iMI7vU4tTXtg'
             )
                 .then((response) => response.json())
                 .then((data) => {
