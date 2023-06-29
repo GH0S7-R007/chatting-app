@@ -216,79 +216,9 @@
     </style>
 </head>
 <body><a href="index.html">Home</a>
-    <h1>Head Creation</h1>
+    <h1></h1>
 
-    <form id="myForm">
-        <div class="form-row">
-            <label for="partyName">Party Name:</label>
-            <input type="text" id="partyName" name="partyName" required>
-        </div>
-
-        <div class="form-row">
-            <label for="address">Address:</label>
-            <input type="text" id="address" name="address" required>
-        </div>
-
-        <div class="form-row">
-            <label for="address1">Area, Locality</label>
-            <input type="text" id="address1" name="address1" required>
-        </div>
-
-        <div class="form-row">
-            <label for="address2">State, Pin code</label>
-            <input type="text" id="address2" name="address2" required>
-        </div>
-
-        <div class="form-row">
-            <label for="gst">GST:</label>
-            <input type="text" id="gst" name="gst" required>
-        </div>
-        <div class="form-row">
-            <label for="pon">PO Number:</label>
-            <input type="text" id="pon" name="pon" required>
-        </div>
-        
-        <div class="form-row">
-            <label for="pod">PO Date:</label>
-            <input type="text" id="pod" name="pod" required>
-        </div>
-        <div class="form-row">
-            <label for="bn">Bill No:</label>
-            <input type="text" id="bn" name="bn" required>
-        </div>
-        <div class="form-row">
-            <label for="bd">bill Date:</label>
-            <input type="text" id="bd" name="bd" required>
-        </div>
-        <div class="form-row">
-            <label for="extra">extra:</label>
-            <input type="text" id="extra" name="extra" required>
-        </div>
-
-        <input type="submit" value="Save">
-    </form>
-
-    <script>
-        document.getElementById("myForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://script.google.com/macros/s/AKfycbyvXNM0mNHm29tnlqs11gy96i4jOJENlO7PGWKs_WEvNnasm4o50AMok6wi-6FRIWUcmg/exec", true); // Replace SCRIPT_ID with your actual Google Apps Script ID
-            xhr.send(formData);
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    clearFormFields();
-                    
-                }
-            };
-        });
-
-        function clearFormFields() {
-            var form = document.getElementById("myForm");
-            form.reset();
-        }
-    </script><br>
-    <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTU2jT8unR6xtIkmwlhMinm8t5yUfZjdqQ2JgJPw4BrB683jR2xVxnsZznsXD_mDASZNo5PZvsuyupb/pubhtml?gid=0&single=true" class="button">Log Sheet Print</a><a href="https://docs.google.com/spreadsheets/d/13YkdDgSO698ourYIVO0ArNbuCRsF_18sQxv5szzJLhs/edit#gid=0">Excel</a><br><br><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_IFzhE35LDaf02heRDoJEFd7uznOv8yRyB-UztfuFq-BsjRomCIvL18Tlh7g1W-8vWES8qXixqEAQ/pubhtml?gid=0&single=true" class="button">Bill Print</a><a href="https://docs.google.com/spreadsheets/d/10KX8R6JldPkYAJlouw03NNFjj16nftisfm6FnPN4j4A/edit#gid=0">Excel</a>
+    <br><center>
+    <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTU2jT8unR6xtIkmwlhMinm8t5yUfZjdqQ2JgJPw4BrB683jR2xVxnsZznsXD_mDASZNo5PZvsuyupb/pubhtml?gid=0&single=true" class="button">Log Sheet Print</a><a href="https://docs.google.com/spreadsheets/d/13YkdDgSO698ourYIVO0ArNbuCRsF_18sQxv5szzJLhs/edit#gid=0">Excel Convert </a><br><br><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ_IFzhE35LDaf02heRDoJEFd7uznOv8yRyB-UztfuFq-BsjRomCIvL18Tlh7g1W-8vWES8qXixqEAQ/pubhtml?gid=0&single=true" class="button">Orginal Bill Print</a><a href="https://docs.google.com/spreadsheets/d/10KX8R6JldPkYAJlouw03NNFjj16nftisfm6FnPN4j4A/edit#gid=0">Excel Convert</a>
 </body>
 </html>
